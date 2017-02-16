@@ -6,6 +6,8 @@ include 'bootstrap.php';
 use Chatter\Models\Message;
 use Chatter\Middleware\Logging as ChatterLogging;
 use Chatter\Middleware\Authentication as ChatterAuth;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $app = new Silex\Application();
 $app->before(function ($request, $app) {
@@ -27,6 +29,28 @@ $app->get('/messages', function () use ($app) {
     }
 
     return json_encode($payload);
+});
+
+$app->post('/messages', function (Request $request) use ($app) {
+    $body = $request->get('message');
+
+    $message = new Message();
+    $message->body = $body;
+    $message->user_id = -1;
+    $message->save();
+
+    $code    = 400;
+    $payload = [];
+
+    if ($message->id) {
+        $code    = 201;
+        $payload = [
+            'message_id'  => $message->id,
+            'message_uri' => '/messages/' . $message->id,
+        ];
+    }
+
+    return $app->json($payload, $code);
 });
 
 $app->run();
