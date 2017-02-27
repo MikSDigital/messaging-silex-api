@@ -1,3 +1,4 @@
 /.vagrant/
 /vendor/
-
+/assets/images/*
+!/assets/images/.gitkeep
