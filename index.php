@@ -35,60 +35,13 @@ $removeExif = function(Request $request, Application $app) {
     $request->headers->set('filepath', $filePath);
 };
 
-$app->get('/messages', function () use ($app) {
-    $message = new Message();
-    $messages = $message->all();
+$app->get('/messages', 'Chatter\\Controllers\\Messages::getAll');
 
-    $payload = [];
-    foreach ($messages as $message) {
-        $payload[$message->id] = [
-            'body'        => $message->body,
-            'user_id'     => $message->user_id,
-            'user_uri'    => '/users/' . $message->user_id,
-            'image_url'   => $message->image_url,
-            'message_id'  => $message->id,
-            'message_uri' => '/messages/' . $message->id,
-            'created_at'  => $message->created_at
-        ];
-    }
-
-    return json_encode($payload);
-});
-
-$app->post('/messages', function (Request $request) use ($app) {
-    $message            = new Message();
-    $message->body      = $request->get('message');
-    $message->user_id   = -1;
-    $message->image_url = $request->headers->get('filepath');
-    $message->save();
-
-    $code    = 400;
-    $payload = [];
-
-    if ($message->id) {
-        $code    = 201;
-        $payload = [
-            'message_id'  => $message->id,
-            'message_uri' => '/messages/' . $message->id,
-            'image_url'   => $message->image_url,
-        ];
-    }
-
-    return $app->json($payload, $code);
-})
+$app->post('/messages', 'Chatter\\Controllers\\Messages::createAction')
     ->before($filter)
     ->before($removeExif)
 ;
 
-$app->delete('/messages/{id}', function ($id) {
-    $message = Message::find($id);
-    $message->delete();
-
-    if ($message->exists) {
-        return new Response('', 400);
-    }
-
-    return new Response('', 204);
-});
+$app->delete('/messages/{id}', 'Chatter\\Controllers\\Messages::deleteAction');
 
 $app->run();
