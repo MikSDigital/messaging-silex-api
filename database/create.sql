@@ -25,18 +25,19 @@ CREATE TABLE `messages` (
   `user_id` int(10) NOT NULL,
   `body` varchar(255) NOT NULL,
   `image_url` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `messages`
 --
 
-INSERT INTO `messages` (`id`, `user_id`, `body`, `image_url`, `created_at`) VALUES
-(1, 1, 'Visiting New York for the first time. Any suggestions on great places to visit?', '', '2016-07-01 01:00:00'),
-(2, 1, 'Wow, the buildings are so big! ', '', '2016-07-05 01:00:00'),
-(3, 1, 'So let me tell you what happened last night. I was just hanging out minding my own business and saw the Empire State Building.', '', '2016-07-12 00:00:00'),
-(4, 1, 'So I decided to go see it. That''s when the trouble started', '', '2016-07-12 01:00:00');
+INSERT INTO `messages` (`id`, `user_id`, `body`, `image_url`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Visiting New York for the first time. Any suggestions on great places to visit?', '', '2016-07-01 01:00:00', '2016-07-01 01:00:00'),
+(2, 1, 'Wow, the buildings are so big! ', '', '2016-07-05 01:00:00', '2016-07-05 01:00:00'),
+(3, 1, 'So let me tell you what happened last night. I was just hanging out minding my own business and saw the Empire State Building.', '', '2016-07-12 00:00:00', '2016-07-12 00:00:00'),
+(4, 1, 'So I decided to go see it. That''s when the trouble started', '', '2016-07-12 01:00:00', '2016-07-12 01:00:00');
 
 -- --------------------------------------------------------
 
